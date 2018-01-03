@@ -22,7 +22,7 @@ Built With:
 <br>bootstrap
 
 Versioning:
-<br>We use SemVer for versioning. For the versions available, see the tags on this repository.
+<br>0.1 - First Upload
 
 Authors:
 <br>Cole Dambrosio
