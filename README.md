@@ -28,5 +28,5 @@ Cole Dambrosio
 Colt Steele - part of his webdev bootcamp
 
 Acknowledgments:
-Colt Steele
-Coach for always believing in me
+<br>Colt Steele
+<br>Coach for always believing in me
