@@ -1,4 +1,4 @@
-Pitch
+Pitch (like a tent)
 <br>Yelp, but for campgrounds.
 <br>As my final project in Colt Steele's Full Stack Devleoper bootcamp, we're tasked with designing a yelp clone, 
 but for campsites. Built in express, it includes user authentication, comments, uploading of new campgrounds on site using mongodb.
