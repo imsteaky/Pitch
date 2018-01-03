@@ -1,7 +1,7 @@
 Pitch (like a tent)
 <br>Yelp, but for campgrounds.
 <br>As my final project in Colt Steele's Full Stack Devleoper bootcamp, we're tasked with designing a yelp clone, 
-but for campsites. Built in express, it includes user authentication, comments, uploading of new campgrounds on site using mongodb.
+but for campsites. Built in express, it includes user authentication, comments, uploading of new campgrounds on site using mongodb and a simple bootstrap design.
 
 Prerequisites:
 <br>Coming soon(tm)
@@ -19,6 +19,7 @@ Built With:
 <br>Express - The web framework used
 <br>mongodb - Database
 <br>mongoose - mongo modeling
+<br>bootstrap
 
 Versioning:
 <br>We use SemVer for versioning. For the versions available, see the tags on this repository.
