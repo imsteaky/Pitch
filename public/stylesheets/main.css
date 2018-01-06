@@ -1,0 +1,13 @@
+/*all image tags inside of thumbnails(thumbnails is a class)*/
+.thumbnail img {
+    width: 100%;
+}
+
+.thumbnail {
+    padding: 0;
+}
+
+/*adding padding to the text in comment fields*/
+.thumbnail .caption-full {
+    padding: 9px;
+}

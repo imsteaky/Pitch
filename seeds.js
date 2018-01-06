@@ -6,17 +6,17 @@ var data = [
     {
         name: "Cloud's Rest", 
         image: "https://farm4.staticflickr.com/3795/10131087094_c1c0a1c859.jpg",
-        description: "blah blah blah"
+        description: "Lorem ipsum dolor amet fanny pack viral af lo-fi drinking vinegar, sartorial dreamcatcher messenger bag post-ironic seitan helvetica retro humblebrag chillwave. Etsy edison bulb iceland helvetica. Vape readymade stumptown, small batch meh ennui humblebrag. Semiotics gluten-free fingerstache craft beer kinfolk scenester aesthetic actually flexitarian."
     },
     {
         name: "Desert Mesa", 
         image: "https://d2iaf7xwaf71rg.cloudfront.net/1279/Camping_Kalahari__large.jpg",
-        description: "blah blah blah"
+        description: "Lorem ipsum dolor amet fanny pack viral af lo-fi drinking vinegar, sartorial dreamcatcher messenger bag post-ironic seitan helvetica retro humblebrag chillwave. Etsy edison bulb iceland helvetica. Vape readymade stumptown, small batch meh ennui humblebrag. Semiotics gluten-free fingerstache craft beer kinfolk scenester aesthetic actually flexitarian."
     },
     {
         name: "Canyon Floor", 
         image: "https://farm1.staticflickr.com/189/493046463_841a18169e.jpg",
-        description: "blah blah blah"
+        description: "Lorem ipsum dolor amet fanny pack viral af lo-fi drinking vinegar, sartorial dreamcatcher messenger bag post-ironic seitan helvetica retro humblebrag chillwave. Etsy edison bulb iceland helvetica. Vape readymade stumptown, small batch meh ennui humblebrag. Semiotics gluten-free fingerstache craft beer kinfolk scenester aesthetic actually flexitarian."
     }
 ]
 
