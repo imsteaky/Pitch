@@ -19,10 +19,14 @@ router.post("/register", function(req, res){
     var newUser = new User({username: req.body.username});
     User.register(newUser, req.body.password, function(err, user){
         if(err){
-            console.log(err);
+            //If there is an error, that error from passport will 
+            //be placed here. We don't have to write that message ourselves
+            //If we just type "error", err);, it will display [object: Object]
+            req.flash("error", err.message);
             return res.render("register");
         }
         passport.authenticate("local")(req, res, function(){
+            req.flash("success", "Welcome to Pitch " + user.username);
             res.redirect("/campgrounds");
         });
     });
@@ -42,21 +46,11 @@ router.post("/login", passport.authenticate("local",
 
 });
 
-
-//LOGOUT ROUTE (get request)
+// logout route
 router.get("/logout", function(req, res){
    req.logout();
+   req.flash("success", "Logged you out!");
    res.redirect("/campgrounds");
 });
 
-
-//middleware
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
-
-//required on each route
 module.exports = router;

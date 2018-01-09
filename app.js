@@ -5,6 +5,8 @@ var express     = require("express"),
     app         = express(),
     bodyParser  = require("body-parser"),
     mongoose    = require("mongoose"),
+    //put flash before passport! 
+    flash       = require("connect-flash"),
     passport    = require("passport"),
     methodOverride = require("method-override"),
     LocalStrategy = require("passport-local"),
@@ -21,6 +23,8 @@ var commentRoutes    = require("./routes/comments"),
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+//put flash before passport configuration
+app.use(flash());
 //connecting CSS
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
@@ -46,6 +50,9 @@ passport.deserializeUser(User.deserializeUser());
 //NEED to have next() to determine what happens next.
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
+//this provides access to flash in every template
+   res.locals.error = req.flash("error");
+   res.locals.success = req.flash("success");
    next();
 });
 

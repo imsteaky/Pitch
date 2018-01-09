@@ -25,3 +25,17 @@
             </div>
         </div>
     </nav>
+<!--Error handling message goes here -->
+    <div class="container">
+<!--we need error.length > 0 because, while it's still empty, it's an empty array. which is not falsey -->
+        <% if(error && error.length > 0){ %>
+            <div class="alert alert-danger" role="alert">
+            <%= error %>
+    </div> 
+    <% } %>
+        <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+        <%= success %>
+    </div> 
+    <% } %>
+</div>
