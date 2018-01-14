@@ -1,27 +1,29 @@
 <% include ../partials/header %>
-<div class ="container"
     <div class="row">
         <div class="col-md-3">
-            <p class="lead">Pitch</p>
-            <div class="list-group">
-                <li class="list-group-item active"> Info 1</li>
-                <li class="list-group-item"> Info 2</li>
-                <li class="list-group-item"> Info 3</li>
-            </div>
+  <p class="lead">Pitch</p>
+  <div class="list-group">
+    <li class="list-group-item active">Info 1</li>
+    <li class="list-group-item">Info 2</li>
+    <li class="list-group-item">Info 3</li>
+  </div>
+  <div id="map"></div>
         </div>
         <div class="col-md-9">
             <div class ="thumbnail">
             <img class="img-responsive" src="<%= campground.image %>">
                 <div class="caption-full">
-                    <h4 class="pull-right">$9.00/night</h4>
+                    <h4 class="pull-right">$<%= campground.cost %>/night</h4>
                     <h4><a><%=campground.name%></a></h4>
                     <p><p><%=campground.description%></p></p>
                     <p>
-                        <em>Submitted By <%= campground.author.username %></em>
-                        </p>
-                        <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                      <em>Submitted by: <a href="/users/<%= campground.author.id %>">
+                      <%= campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em>
+                    </p>
+                        <% if(currentUser && campground.author.id.equals(currentUser._id)|| currentUser && currentUser.isAdmin){ %>
                             <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-                            <form id= "delete-form" action="/campgrounds/<%= campground._id%>?_method=DELETE" method="POST">
+                            <!--trying to get delete and edit on the same line -->
+                            <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST" class="delete-form"> 
                                 <button class="btn btn-danger">Delete</button>
                             </form>
                         <% } %>
@@ -38,11 +40,11 @@
                     <div class="row">
                         <div class="col-md-12">
                            <strong><%= comment.author.username %></strong> 
-                            <span class="pull-right">10 Days Ago</span>
+                            <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
                     <p>
                            <%= comment.text %>
                     </p>
-                        <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                        <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
                             <a class="btn btn-xs btn-warning" 
                                href="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>/edit">Edit</a>
                             <form id="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
@@ -54,7 +56,34 @@
                 <% }) %>
             </div>
         </div>
-    </div>
+<script>
+  function initMap() {
+    var lat = <%= campground.lat %>;
+    var lng = <%= campground.lng %>;
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= campground.name %><br />
+      <%= campground.location %></strong>
+      <p><%= campground.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB939XNBSwj7bK1R30Ai8ZRLccS-B7DGhs&callback=initMap"></script>
 </div>
 
 <% include ../partials/footer %>

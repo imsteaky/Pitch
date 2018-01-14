@@ -19,17 +19,18 @@ var express     = require("express"),
 var commentRoutes    = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
     indexRoutes      = require("./routes/index");
-
+    //dynamic timing since last post on campgrounds
+    app.locals.moment = require('moment'),
+    
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-//put flash before passport configuration
-app.use(flash());
-//connecting CSS
 app.use(express.static(__dirname + "/public"));
-app.use(methodOverride("_method"));
+app.use(methodOverride('_method'));
+//require moment
+app.locals.moment = require('moment');
 
-//seedDB(); // This seeds the DB, filling campgrounds with dummy sites.
+//seedDB(); // This seeds the DB, filling campgrounds with dummy sites. No longer needed.
 
 
 // Passport configuration
@@ -39,6 +40,7 @@ app.use(require("express-session")({
     saveUninitialized: false
 }));
 
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 //this line works because we're using passportLocalMongoose, without it, we'd write the method ourselves
