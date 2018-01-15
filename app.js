@@ -18,9 +18,8 @@ var express     = require("express"),
 //requiring routes
 var commentRoutes    = require("./routes/comments"),
     campgroundRoutes = require("./routes/campgrounds"),
-    indexRoutes      = require("./routes/index");
-    //dynamic timing since last post on campgrounds
-    app.locals.moment = require('moment'),
+    ratingRoutes     = require("./routes/ratings"),
+    indexRoutes      = require("./routes/index")
     
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -29,8 +28,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
 //require moment
 app.locals.moment = require('moment');
-
-//seedDB(); // This seeds the DB, filling campgrounds with dummy sites. No longer needed.
 
 
 // Passport configuration
@@ -48,19 +45,16 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//our own middleware. makes it so req.user is involved in every route
-//NEED to have next() to determine what happens next.
 app.use(function(req, res, next){
    res.locals.currentUser = req.user;
-//this provides access to flash in every template
    res.locals.error = req.flash("error");
    res.locals.success = req.flash("success");
    next();
 });
 
-//use the three route files required earlier
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
+app.use("/campgrounds/:id/ratings", ratingRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){

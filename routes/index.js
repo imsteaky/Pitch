@@ -22,7 +22,8 @@ router.post("/register", function(req, res){
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        avatar: req.body.avatar
+        avatar: req.body.avatar,
+        bio: req.body.bio
       });
             
     if(req.body.refCode === 'WatermelonTootToot') {
@@ -74,9 +75,33 @@ router.get("/users/:id", function(req, res) {
         req.flash("error", "Something went wrong.");
         res.redirect("/");
       }
-      res.render("users/show", {user: foundUser, campgrounds: campgrounds});
+      res.render("users/show", {user: foundUser, campgrounds: campgrounds, bio: req.body.bio});
     })
   });
 });
 
+//EDIT USER PROFILE
+router.get("/users/:id/edit", function(req, res) {
+     User.findById(req.params.id, function(err, foundUser)
+     { if(err)
+        {
+          res.redirect("back");
+        } else {
+        res.render("users/edit", {user: foundUser});
+        }
+     });
+});
+
+//Update ROUTE
+router.put("/users/:id", function(req, res){
+     var newData = {firstName: req.body.firstName, email: req.body.email, avatar: req.body.avatar, bio: req.body.bio};
+  User.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, user){
+     if(err){
+         res.redirect("back");
+     } else{
+         req.flash("success","Profile Updated!");
+         res.redirect("/users/" + user._id);
+     }
+  });
+});
 module.exports = router;

@@ -8,7 +8,33 @@
     <li class="list-group-item">Info 3</li>
   </div>
   <div id="map"></div>
+        <form action="/campgrounds/<%= campground._id %>/ratings" method="POST">
+                <div class="form-group">
+                    <label for="rating">Leave a rating:</label>
+                    <fieldset class="starability-basic form-group" id="rating">
+                      <input type="radio" id="first-rate5" name="rating[rating]" value="5" />
+                      <label for="first-rate5" title="Amazing">5 stars</label>
+                      <input type="radio" id="first-rate4" name="rating[rating]" value="4" />
+                      <label for="first-rate4" title="Very good">4 stars</label>
+                      <input type="radio" id="first-rate3" name="rating[rating]" value="3" />
+                      <label for="first-rate3" title="Average">3 stars</label>
+                      <input type="radio" id="first-rate2" name="rating[rating]" value="2" />
+                      <label for="first-rate2" title="Not good">2 stars</label>
+                      <input type="radio" id="first-rate1" name="rating[rating]" value="1" />
+                      <label for="first-rate1" title="Terrible">1 star</label>
+                    </fieldset>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-primary">
+                        Submit rating!
+                    </button>
+                </div>
+            </form>
+            <div>
+                Current Rating: <%= campground.rating.toFixed(2) %>
+            </div>
         </div>
+        
         <div class="col-md-9">
             <div class ="thumbnail">
             <img class="img-responsive" src="<%= campground.image %>">
@@ -47,7 +73,7 @@
                         <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
                             <a class="btn btn-xs btn-warning" 
                                href="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>/edit">Edit</a>
-                            <form id="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                            <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST" class="delete-form">
                                 <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                             </form>
                         <% } %>

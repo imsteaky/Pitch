@@ -1,10 +1,20 @@
 <% include ../partials/header %> 
+<link rel="stylesheet" href="/stylesheets/index.css">
+<div class="background-image"></div>
      <header class="jumbotron">
          <div class="container">
              <h1>Welcome To Pitch!</h1>
-             <p>View our hand-picked campgrounds from all over the world</p>
+             <p>View user-submitted campsites from around the world.</p>
              <p>
                 <a class="btn btn-primary btn-large" href="/campgrounds/new">Add New Campground</a>
+             </p>
+             <p>
+                 <form action="/campgrounds" method="GET" class="form-inline">
+                     <div class="form-group">
+                         <input type="text" name="search" placeholder="Search..." class="form-control">
+                         <input type="submit" value="Search" class="btn btn-default">
+                     </div>
+                 </form>
              </p>
          </div>
      </header>
@@ -24,5 +34,4 @@
             </div>
         <% }); %>
     </div>
-
 <% include ../partials/footer %>

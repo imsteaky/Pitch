@@ -1,16 +1,12 @@
 var express = require("express");
-//this ---------------------------V will merge the params from campground and comments together.
-//so that inside the comment route, we can access :id
 var router  = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 
 
-//New Comments
-//we want to make it so you have to be logged in to comment, so we just add
-//isLoggedIn, right here -v
-router.get("/new", middleware.isLoggedIn, function(req, res){
+//Comments New
+router.get("/new",middleware.isLoggedIn, function(req, res){
     // find campground by id
     console.log(req.params.id);
     Campground.findById(req.params.id, function(err, campground){
@@ -51,50 +47,40 @@ router.post("/",middleware.isLoggedIn,function(req, res){
    });
 });
 
-//EDIT COMMENTS ROUTE
-router.get("/:commentId/edit", middleware.isLoggedIn, function(req, res){
-    // find campground by id
-    Comment.findById(req.params.commentId, function(err, comment){
-        if(err){
-            console.log(err);
-        } else {
-             res.render("comments/edit", {campground_id: req.params.id, comment: comment});
-        }
-    })
+// COMMENT EDIT ROUTE
+router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
+   Comment.findById(req.params.comment_id, function(err, foundComment){
+      if(err){
+          res.redirect("back");
+      } else {
+        res.render("comments/edit", {campground_id: req.params.id, comment: foundComment});
+      }
+   });
 });
 
-//COMMENT UPDATE ROUTE
-router.put("/:commentId", function(req, res){
-   Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, function(err, comment){
+// COMMENT UPDATE
+router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res){
+   Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
+      if(err){
+          res.redirect("back");
+      } else {
+          res.redirect("/campgrounds/" + req.params.id );
+      }
+   });
+});
+
+// COMMENT DESTROY ROUTE
+router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, res){
+    //findByIdAndRemove
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
        if(err){
-          console.log(err);
-           res.render("edit");
+           res.redirect("back");
        } else {
+           req.flash("success", "Comment deleted");
            res.redirect("/campgrounds/" + req.params.id);
        }
-   }); 
-});
-
-//COMMENT DESTROY ROUTE
-router.delete("/:commentId",middleware.checkUserComment, function(req, res){
-    Comment.findByIdAndRemove(req.params.commentId, function(err, comment){
-        if(err){
-            console.log(err);
-        } else {
-            Campground.findByIdAndUpdate(req.params.id, {
-              $pull: {
-                comments: comment.id
-              }
-            }, function(err) {
-              if(err){ 
-                console.log(err)
-              } else {
-                req.flash('error', 'Comment deleted!');
-                res.redirect("/campgrounds/" + req.params.id);
-              }
-            });
-        }
     });
 });
+
 
 module.exports = router;
